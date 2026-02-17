@@ -4,12 +4,12 @@ import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
 export const App = () => {
-  const [inputValue, setInputValue] = useState('');
+  const [query, setQuery] = useState('');
   const handleChange = event => {
-    setInputValue(event.target.value);
+    setQuery(event.target.value);
   };
 
-  const normalizedQuery = inputValue.trim().toLowerCase();
+  const normalizedQuery = query.trim().toLowerCase();
 
   const filteredMovies = moviesFromServer.filter(movie => {
     const titleMatch = movie.title.toLowerCase().includes(normalizedQuery);
@@ -36,7 +36,7 @@ export const App = () => {
                 id="search-query"
                 className="input"
                 placeholder="Type search word"
-                value={inputValue}
+                value={query}
                 onChange={handleChange}
               />
             </div>
@@ -45,7 +45,7 @@ export const App = () => {
 
         <MoviesList movies={filteredMovies} />
         {filteredMovies.length === 0 && (
-          <p>{`No movies found for "${inputValue}"`}</p>
+          <p>{`No movies found for "${query}"`}</p>
         )}
       </div>
 
