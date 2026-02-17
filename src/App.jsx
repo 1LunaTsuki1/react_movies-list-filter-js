@@ -9,6 +9,17 @@ export const App = () => {
     setInputValue(event.target.value);
   };
 
+  const normalizedQuery = inputValue.trim().toLowerCase();
+
+  const filteredMovies = moviesFromServer.filter(movie => {
+    const titleMatch = movie.title.toLowerCase().includes(normalizedQuery);
+    const descriptionMatch = movie.description
+      .toLowerCase()
+      .includes(normalizedQuery);
+
+    return titleMatch || descriptionMatch;
+  });
+
   return (
     <div className="page">
       <div className="page-content">
@@ -32,7 +43,10 @@ export const App = () => {
           </div>
         </div>
 
-        <MoviesList movies={moviesFromServer} inputValue={inputValue} />
+        <MoviesList movies={filteredMovies} />
+        {filteredMovies.length === 0 && (
+          <p>{`No movies found for "${inputValue}"`}</p>
+        )}
       </div>
 
       <div className="sidebar">Sidebar goes here</div>
